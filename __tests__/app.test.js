@@ -8,6 +8,9 @@ describe('TardyGram routes', () => {
     return setup(pool);
   });
 
+  it('should say yes',() => {
+    expect('yes').toEqual('yes');
+  })
   afterAll(() => {
     pool.end();
   });
