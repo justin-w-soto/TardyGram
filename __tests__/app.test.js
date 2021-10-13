@@ -88,8 +88,42 @@ describe('TardyGram routes', () => {
     
   });
 
+  //---------------------------------------------//
+
+  it('GET / post by id ', async () => {
+    await User.insert({
+      username: 'test_user',
+      avatarUrl: 'https://example.com/image.png'
+    });
+    
+    await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Later Alligator', tags:['tagA', 'tagB'] });
+
+    await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA', 'tagB'] });
+
+
+    const res = await request(app).post('/api/auth/comments')
+      .send({
+        id: 2,
+        comment: 'BLAH BLAH I DONT LIKE YOU'
+      });
+
+    expect(res.body).toEqual(
+      { 
+        id:expect.any(String),
+        comment_by:'test_user',
+        post: expect.any(String), 
+        comment: 'BLAH BLAH I DONT LIKE YOU'
+      }
+    );
+    
+  });
 
   //---------------------------------------------//
+
+
+
+
+
 
 
 
