@@ -65,7 +65,7 @@ describe('TardyGram routes', () => {
 
     await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA', 'tagB'] });
 
-    const res = request(app).get('/api/auth/posts');
+    const res = await request(app).get('/api/auth/posts');
 
     expect(res.body).toEqual([{ 
       id:expect.any(String),
