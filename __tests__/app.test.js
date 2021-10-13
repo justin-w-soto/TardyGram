@@ -54,6 +54,46 @@ describe('TardyGram routes', () => {
 
 
   //---------------------------------------------//
+
+  it('GET / All post ', async () => {
+    await User.insert({
+      username: 'test_user',
+      avatarUrl: 'https://example.com/image.png'
+    });
+    
+    await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Later Alligator', tags:['tagA', 'tagB'] });
+
+    await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA', 'tagB'] });
+
+    const res = request(app).get('/api/auth/posts');
+
+    expect(res.body).toEqual([{ 
+      id:expect.any(String),
+      user:'test_user',
+      photo:'Some Url string', 
+      caption: 'Later Alligator',
+      tags:['tagA', 'tagB'] 
+
+    },
+    { 
+      id:expect.any(String),
+      user:'test_user',
+      photo:'emojis.png', 
+      caption: '🤬👹👽🤢',
+      tags:['tagA', 'tagB'] 
+
+    }
+    
+    ]);
+    
+  });
+
+
+  //---------------------------------------------//
+
+
+
+
   afterAll(() => {
     pool.end();
   });
