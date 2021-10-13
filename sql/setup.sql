@@ -11,7 +11,7 @@ CREATE TABLE posts (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     photo_url TEXT NOT NULL,
     caption TEXT NOT NULL,
-    tags TEXT [],
+    tags TEXT[],
     "user" TEXT NOT NULL, 
     FOREIGN KEY("user") REFERENCES users(github_username)
 );

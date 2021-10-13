@@ -2,7 +2,7 @@ const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
-
+const User = require('../lib/models/User');
 
 
 
@@ -35,15 +35,19 @@ describe('TardyGram routes', () => {
 
   //---------------------------------------------//
   it('POST /posts responds with the new post', async () => {
-    // AGENT 
+    await User.insert({
+      username: 'test_user',
+      avatarUrl: 'https://example.com/image.png'
+    });
+    
     const res = await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Cristina was here', tags:['tagA', 'tagB'] });
     expect(res.body).toEqual(
       { 
         id:expect.any(String),
         user:expect.any(String),
-        photo:expect.any(String), 
-        caption: expect.any(String), 
-        tags:expect.arrayContaining(['tagA', 'tagB']) 
+        photo:'Some Url string', 
+        caption: 'Cristina was here',
+        tags:['tagA', 'tagB'] 
 
       });
   });
