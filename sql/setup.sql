@@ -12,8 +12,8 @@ CREATE TABLE posts (
     photo_url TEXT NOT NULL,
     caption TEXT NOT NULL,
     tags TEXT [],
-    user BIGINT NOT NULL, 
-    FOREIGN KEY(user) REFERENCES users(github_username)
+    "user" TEXT NOT NULL, 
+    FOREIGN KEY("user") REFERENCES users(github_username)
 );
 
 CREATE TABLE comments (
