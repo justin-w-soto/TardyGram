@@ -35,19 +35,17 @@ describe('TardyGram routes', () => {
 
   //---------------------------------------------//
   it('POST /posts responds with the new post', async () => {
-    const res = await (await request(app)
-      .post('/api/auth/posts'))
-      .send({ photoUrl:'Some Url string', caption: 'Cristina was here', tags:['tagA', 'tagB'] });
+    // AGENT 
+    const res = await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Cristina was here', tags:['tagA', 'tagB'] });
     expect(res.body).toEqual(
       { 
         id:expect.any(String),
         user:expect.any(String),
-        photoUrl:expect.any(String), 
+        photo:expect.any(String), 
         caption: expect.any(String), 
-        tags:expect.arrayContaining(expect.any(String))
+        tags:expect.arrayContaining(['tagA', 'tagB']) 
 
-      }
-    );
+      });
   });
 
 
