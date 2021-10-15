@@ -249,11 +249,11 @@ describe('TardyGram routes', () => {
       });
 
 
-    const res = await request(app).delete('/api/auth/comments/2');
+    const res = await request(app).delete('/api/auth/comments/1');
 
     expect(res.body).toEqual(
           { 
-            id:2,
+            id:'1',
             comment_by:'test_user',
             post: expect.any(String), 
             comment: 'BLAH BLAH I DONT LIKE YOU'
