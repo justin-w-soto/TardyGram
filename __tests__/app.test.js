@@ -195,6 +195,42 @@ describe('TardyGram routes', () => {
 
   //---------------------------------------------//
 
+   
+  it('DELETE post by id ', async () => {
+    await User.insert({
+      username: 'test_user',
+      avatarUrl: 'https://example.com/image.png'
+    });
+
+    
+    
+    await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Later Alligator', tags:['tagA', 'tagB'] });
+
+    await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA'] });
+
+    await request(app).post('/api/auth/comments')
+      .send({
+        id: 2,
+        comment: 'BLAH BLAH I DONT LIKE YOU'
+      });
+
+
+    const res = await request(app).delete('/api/auth/posts/2');
+
+    expect(res.body).toEqual(
+       { 
+        id:'2',
+        user:expect.any(String),
+        photo: expect.any(String),
+        tags: expect.any(Array),
+        caption:'🤬👹👽🤢'
+      }
+    );
+
+  });
+
+  //---------------------------------------------//
+
 
 
 
