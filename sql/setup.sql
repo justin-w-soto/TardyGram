@@ -13,15 +13,15 @@ CREATE TABLE posts (
     caption TEXT NOT NULL,
     tags TEXT[],
     "user" TEXT NOT NULL, 
-    FOREIGN KEY("user") REFERENCES users(github_username)
+    FOREIGN KEY("user") REFERENCES users(github_username) ON DELETE CASCADE
 );
 
 CREATE TABLE comments (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     comment_by TEXT NOT NULL,
-    FOREIGN KEY(comment_by) REFERENCES users(github_username),
+    FOREIGN KEY(comment_by) REFERENCES users(github_username) ON DELETE CASCADE,
     post BIGINT NOT NULL,
-    FOREIGN KEY(post) REFERENCES posts(id),
+    FOREIGN KEY(post) REFERENCES posts(id) ON DELETE CASCADE,
     comment  TEXT NOT NULL
 );
 
