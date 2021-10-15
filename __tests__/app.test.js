@@ -180,13 +180,13 @@ describe('TardyGram routes', () => {
     const res = await request(app).patch('/api/auth/posts/2').send({ caption:'👽🤢👽🤢👽🤢' });
 
     expect(res.body).toEqual(
-      [{ 
+      { 
         id:'2',
         user:expect.any(String),
-        photo_url: expect.any(String),
-        tags: expect.any(String),
+        photo: expect.any(String),
+        tags: expect.any(Array),
         caption:'👽🤢👽🤢👽🤢'
-      }]
+      }
     );
 
 
