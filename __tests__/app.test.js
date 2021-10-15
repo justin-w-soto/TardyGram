@@ -121,37 +121,80 @@ describe('TardyGram routes', () => {
   //---------------------------------------------//
 
 
-  xit('GETS post by id ', async () => {
+  it('GETS post by id ', async () => {
     await User.insert({
       username: 'test_user',
       avatarUrl: 'https://example.com/image.png'
     });
+
+    
     
     await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Later Alligator', tags:['tagA', 'tagB'] });
 
-    await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA', 'tagB'] });
+    await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA'] });
 
-   const poster = await request(app).post('/api/auth/comments')
+    await request(app).post('/api/auth/comments')
       .send({
         id: 2,
         comment: 'BLAH BLAH I DONT LIKE YOU'
       });
-console.log('AHHHHHHHH', poster.body);
-    const res = await request(app).get('/api/auth/posts/1');
+
+
+    const res = await request(app).get('/api/auth/posts/2');
 
     expect(res.body).toEqual(
-      { 
-        id:expect.any(String),
-        user:expect.any(String),
-        comment:['BLAH BLAH I DONT LIKE YOU'] 
-      }
+      [{ 
+        // id:expect.any(String),
+        // user:expect.any(String),
+        comment:'BLAH BLAH I DONT LIKE YOU',
+        comment_by:'test_user',
+        post: '2'
+      }]
     );
 
 
     
   });
 
-//---------------------------------------------//
+  //---------------------------------------------//
+  
+  it('PATACH post by id ', async () => {
+    await User.insert({
+      username: 'test_user',
+      avatarUrl: 'https://example.com/image.png'
+    });
+
+    
+    
+    await request(app).post('/api/auth/posts').send({ photo:'Some Url string', caption:'Later Alligator', tags:['tagA', 'tagB'] });
+
+    await request(app).post('/api/auth/posts').send({ photo:'emojis.png', caption:'🤬👹👽🤢', tags:['tagA'] });
+
+    await request(app).post('/api/auth/comments')
+      .send({
+        id: 2,
+        comment: 'BLAH BLAH I DONT LIKE YOU'
+      });
+
+
+    const res = await request(app).patch('/api/auth/posts/2').send({ caption:'👽🤢👽🤢👽🤢' });
+
+    expect(res.body).toEqual(
+      [{ 
+        id:'2',
+        user:expect.any(String),
+        photo_url: expect.any(String),
+        tags: expect.any(String),
+        caption:'👽🤢👽🤢👽🤢'
+      }]
+    );
+
+
+    
+  });
+
+  //---------------------------------------------//
+
 
 
 
